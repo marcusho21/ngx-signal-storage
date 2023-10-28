@@ -5,7 +5,7 @@ import {
   RemoveStorageAction,
   SetStorageAction,
   StorageAction,
-} from './ngx-signal-storage.type';
+} from '../types/ngx-signal-storage.type';
 
 /**
  *

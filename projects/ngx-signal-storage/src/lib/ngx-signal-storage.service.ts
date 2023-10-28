@@ -6,15 +6,16 @@ import {
   makeEnvironmentProviders,
   signal,
 } from '@angular/core';
+import { StorageKeyValueValidator } from '../_internal/helpers/storage-key-value.validator';
+import { StorageHelper } from '../_internal/helpers/storage.helper';
+import { PREFIX } from '../_internal/storage.token';
 import {
   Key,
   NgxSignalStorage,
   StorageAction,
   StorageMap,
   Value,
-} from '../_internal/ngx-signal-storage.type';
-import { PREFIX, STORAGE } from '../_internal/storage.token';
-import { isString } from '../_internal/type.helper';
+} from '../_internal/types/ngx-signal-storage.type';
 
 @Injectable({
   providedIn: 'root',
@@ -88,64 +89,6 @@ export class NgxSignalStorageService<T extends StorageMap<T>>
       this.change();
       return this.#storageHelper.getStorageValue(key) !== null;
     });
-  }
-}
-
-class StorageKeyValueValidator<T> {
-  validateKey(key: Key<T>) {
-    if (!isString(key)) {
-      throw new Error(`key must be a string and not ${typeof key}`);
-    }
-  }
-
-  validateValue(value: Key<T>, validator: (value: any) => boolean) {
-    const isValid = validator(value);
-    if (!isValid) {
-      throw new Error(
-        'value is not valid, please check your validator or type'
-      );
-    }
-  }
-}
-
-@Injectable()
-class StorageHelper<T> {
-  #storage = inject(STORAGE);
-  #prefix = inject(PREFIX);
-  #keyValueValidator = new StorageKeyValueValidator<T>();
-
-  getStorageValue(key: Key<T>, validator?: (value: any) => boolean) {
-    const value = this.#storage.getItem(this.getPrefixedKey(key));
-
-    if (value === null) return null;
-
-    const parsedValue = JSON.parse(value);
-
-    if (validator) {
-      this.#keyValueValidator.validateValue(parsedValue, validator);
-    }
-
-    return parsedValue as Value<T>;
-  }
-
-  setStorageValue(key: Key<T>, payload: Value<T>) {
-    this.#storage.setItem(this.getPrefixedKey(key), JSON.stringify(payload));
-  }
-
-  removeStorageValue(key: Key<T>) {
-    this.#storage.removeItem(this.getPrefixedKey(key));
-  }
-
-  clearStorage() {
-    this.#storage.clear();
-  }
-
-  hasStorageValue(key: Key<T>) {
-    return this.#storage.getItem(this.getPrefixedKey(key)) !== null;
-  }
-
-  getPrefixedKey(key: Key<T>): `${string}${Key<T>}` {
-    return `${this.#prefix}${key}` as const;
   }
 }
 
