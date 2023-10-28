@@ -11,3 +11,5 @@ export const STORAGE = new InjectionToken('LocalStorage', {
     return defaultView.localStorage;
   },
 });
+
+export const PREFIX = new InjectionToken('Storage prefix');
