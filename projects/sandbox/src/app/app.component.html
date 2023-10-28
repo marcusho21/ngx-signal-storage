@@ -1,0 +1,19 @@
+<div *ngFor="let task of tasks()">
+  {{ task | json }}
+
+  <span *ngIf="!task">empty task</span>
+</div>
+
+<input type="text" #title />
+<input type="text" #desc />
+<button
+  (click)="setTask({
+  title: title.value,
+  desc: desc.value,
+})"
+>
+  set
+</button>
+
+<button (click)="clearAllTodo()">clear all</button>
+<button (click)="removeTodos()">remove todos</button>
