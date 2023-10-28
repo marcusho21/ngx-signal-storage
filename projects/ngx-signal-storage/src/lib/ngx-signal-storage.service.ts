@@ -5,7 +5,7 @@ import {
   StorageAction,
   StorageMap,
   Value,
-} from '../_internal/ngx-signal-storage.class';
+} from '../_internal/ngx-signal-storage.type';
 import { STORAGE } from '../_internal/storage.token';
 import { isString } from '../_internal/type.helper';
 
