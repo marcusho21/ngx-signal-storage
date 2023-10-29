@@ -1,34 +1,31 @@
-import { Injectable, inject } from '@angular/core';
-import { STORAGE, PREFIX } from '../storage.token';
 import { Key, Value } from '../types/ngx-signal-storage.type';
-import { StorageKeyValueValidator } from './storage-key-value.validator';
+import { useValidator } from './validation.helper';
 
-@Injectable()
 export class StorageHelper<T> {
-  #storage = inject(STORAGE);
-  #prefix = inject(PREFIX);
-  #keyValueValidator = new StorageKeyValueValidator<T>();
+  #storage: Storage;
+
+  constructor(storage: Storage) {
+    this.#storage = storage;
+  }
 
   getStorageValue(key: Key<T>, validator?: (value: any) => boolean) {
-    const value = this.#storage.getItem(this.getPrefixedKey(key));
+    const value = this.#storage.getItem(key);
 
     if (value === null) return null;
 
     const parsedValue = JSON.parse(value);
 
-    if (validator) {
-      this.#keyValueValidator.validateValue(parsedValue, validator);
-    }
+    validator && useValidator(parsedValue, validator);
 
     return parsedValue as Value<T>;
   }
 
   setStorageValue(key: Key<T>, payload: Value<T>) {
-    this.#storage.setItem(this.getPrefixedKey(key), JSON.stringify(payload));
+    this.#storage.setItem(key, JSON.stringify(payload));
   }
 
   removeStorageValue(key: Key<T>) {
-    this.#storage.removeItem(this.getPrefixedKey(key));
+    this.#storage.removeItem(key);
   }
 
   clearStorage() {
@@ -36,10 +33,27 @@ export class StorageHelper<T> {
   }
 
   hasStorageValue(key: Key<T>) {
-    return this.#storage.getItem(this.getPrefixedKey(key)) !== null;
+    return this.#storage.getItem(key) !== null;
   }
+}
 
-  getPrefixedKey(key: Key<T>): `${string}${Key<T>}` {
-    return `${this.#prefix}${key}` as const;
-  }
+export function prefixKey() {
+  return function (
+    _target: any,
+    _propertyName: string,
+    descriptor: PropertyDescriptor & { prefix?: string }
+  ) {
+    const originalMethod: Function & ((key: any) => any) = descriptor.value;
+
+    descriptor.value = function () {
+      const prefix = this.prefix ?? '';
+      const key = arguments[0];
+
+      arguments[0] = [prefix, key].join('');
+
+      return originalMethod.apply(this, arguments);
+    };
+
+    return descriptor;
+  };
 }

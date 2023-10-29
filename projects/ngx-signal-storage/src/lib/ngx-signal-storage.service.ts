@@ -1,14 +1,12 @@
 import {
-  Injectable,
   computed,
   effect,
-  inject,
   makeEnvironmentProviders,
   signal,
 } from '@angular/core';
-import { StorageKeyValueValidator } from '../_internal/helpers/storage-key-value.validator';
-import { StorageHelper } from '../_internal/helpers/storage.helper';
-import { PREFIX } from '../_internal/storage.token';
+import { StorageHelper, prefixKey } from '../_internal/helpers/storage.helper';
+import { validateKey } from '../_internal/helpers/validation.helper';
+import { STORAGE } from '../_internal/storage.token';
 import {
   Key,
   NgxSignalStorage,
@@ -17,20 +15,20 @@ import {
   Value,
 } from '../_internal/types/ngx-signal-storage.type';
 
-@Injectable({
-  providedIn: 'root',
-})
 export class NgxSignalStorageService<T extends StorageMap<T>>
   implements NgxSignalStorage<T>
 {
-  // injectables
-  #storageHelper = inject(StorageHelper<T>);
-  #keyValueValidator = new StorageKeyValueValidator<T>();
+  // constructor arguments
+  #storageHelper: StorageHelper<T>;
+  #prefix = '';
 
   // properties
   #action = signal<StorageAction<Key<T>, Value<T>>>({ type: 'init' });
 
-  constructor() {
+  constructor(prefix: string, storage: Storage) {
+    this.#prefix = prefix;
+    this.#storageHelper = new StorageHelper<T>(storage);
+
     this.#reducer();
   }
 
@@ -52,50 +50,64 @@ export class NgxSignalStorageService<T extends StorageMap<T>>
     });
   }
 
+  get prefix() {
+    return this.#prefix;
+  }
+
   get change() {
     return computed(() => this.#action());
   }
 
+  @validateKey()
+  @prefixKey()
   get(key: Key<T>, validator?: (value: any) => value is Value<T>) {
-    this.#keyValueValidator.validateKey(key);
     return computed(() => this.#storageHelper.getStorageValue(key, validator));
   }
 
+  @validateKey()
+  @prefixKey()
   watch(key: Key<T>, validator?: (value: any) => value is Value<T>) {
-    this.#keyValueValidator.validateKey(key);
-
+    console.log(key, 'watch');
     return computed(() => {
       this.#action(); // trigger computed to watch for changes by reacting to the #action signal
       return this.#storageHelper.getStorageValue(key, validator);
     });
   }
 
+  @validateKey()
+  @prefixKey()
   set(key: Key<T>, payload: Value<T>) {
-    this.#keyValueValidator.validateKey(key);
+    console.log(key);
     return this.#action.set({ type: 'set', key, payload });
   }
 
+  @validateKey()
+  @prefixKey()
   remove(key: Key<T>) {
-    this.#keyValueValidator.validateKey(key);
     return this.#action.set({ type: 'remove', key });
   }
 
-  clear() {
-    this.#action.set({ type: 'clear' });
-  }
-
+  @validateKey()
+  @prefixKey()
   has(key: Key<T>) {
     return computed(() => {
       this.change();
       return this.#storageHelper.getStorageValue(key) !== null;
     });
   }
+
+  clear() {
+    this.#action.set({ type: 'clear' });
+  }
 }
 
 export const provideNgxSignalStorage = (prefix = '') => {
   return makeEnvironmentProviders([
-    { provide: PREFIX, useValue: prefix },
-    NgxSignalStorageService,
-    StorageHelper,
+    {
+      provide: NgxSignalStorageService,
+      useFactory: (storage: Storage) =>
+        new NgxSignalStorageService(prefix, storage),
+      deps: [STORAGE],
+    },
   ]);
 };

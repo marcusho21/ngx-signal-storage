@@ -27,6 +27,12 @@ export type ClearStorageAction = { type: 'clear' };
 export abstract class NgxSignalStorage<
   T extends { [key in Key<T>]: Value<T> }
 > {
+  abstract get(key: Key<T>): Signal<Value<T> | null>;
+  abstract get(
+    key: Key<T>,
+    validator: (value: any) => value is Value<T>
+  ): Signal<Value<T> | null>;
+
   abstract watch(key: Key<T>): Signal<Value<T> | null>;
   abstract watch(
     key: Key<T>,
