@@ -1,6 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 
-import { NgxSignalStorageService } from './ngx-signal-storage.service';
+import {
+  NgxSignalStorageService,
+  provideNgxSignalStorage,
+} from './ngx-signal-storage.service';
 import { STORAGE } from '../_internal/storage.token';
 
 describe('NgxSignalStorageService', () => {
@@ -8,13 +11,7 @@ describe('NgxSignalStorageService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        NgxSignalStorageService,
-        {
-          provide: STORAGE,
-          useValue: {},
-        },
-      ],
+      providers: [provideNgxSignalStorage()],
     });
     service = TestBed.inject(NgxSignalStorageService);
   });
