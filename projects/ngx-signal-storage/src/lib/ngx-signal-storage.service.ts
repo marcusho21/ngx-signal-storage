@@ -7,10 +7,10 @@ import {
 import { StorageHelper, prefixKey } from '../_internal/helpers/storage.helper';
 import { validateKey } from '../_internal/helpers/validation.helper';
 import { STORAGE } from '../_internal/storage.token';
-import {
+import type { StorageAction } from './helpers/ngx-signal-storage-action.type';
+import type {
   Key,
   NgxSignalStorage,
-  StorageAction,
   StorageMap,
   Value,
 } from '../_internal/types/ngx-signal-storage.type';

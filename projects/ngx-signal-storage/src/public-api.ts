@@ -3,3 +3,4 @@
  */
 
 export * from './lib/ngx-signal-storage.service';
+export * from './lib/helpers';
