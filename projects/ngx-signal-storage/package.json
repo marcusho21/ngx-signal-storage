@@ -8,5 +8,18 @@
   "dependencies": {
     "tslib": "^2.3.0"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "description": "Angular Signal Storage",
+  "keywords": [
+    "angular",
+    "signal",
+    "storage",
+    "LocalStorage",
+    "local-storage",
+    "reactive",
+    "signal-storage",
+    "signal-storage-angular",
+    "typescript",
+    "javascript"
+  ]
 }

@@ -1,12 +1,14 @@
 {
   "name": "ngx-signal-storage",
   "version": "0.0.0",
+  "description": "Angular library for using local storage reactively with signals API",
   "scripts": {
     "ng": "ng",
     "watch:lib": "ng build ngx-signal-storage --watch",
     "build:lib": "ng build ngx-signal-storage",
     "test:lib": "jest --config projects/ngx-signal-storage/jest.config.ts",
-    "start:sandbox": "ng serve"
+    "start:sandbox": "ng serve",
+    "publish": "ng build ngx-signal-storage && cd dist/ngx-signal-storage && npm publish && cd ../.."
   },
   "private": true,
   "dependencies": {
