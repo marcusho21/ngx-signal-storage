@@ -10,7 +10,6 @@
     "start:sandbox": "ng serve",
     "publish": "ng build ngx-signal-storage && cd dist/ngx-signal-storage && npm publish && cd ../.."
   },
-  "private": true,
   "dependencies": {
     "@angular/common": "^16.2.0",
     "@angular/compiler": "^16.2.0",
