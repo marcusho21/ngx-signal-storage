@@ -55,7 +55,7 @@ export class NgxSignalStorageService<T extends StorageMap<T>>
   }
 
   get change() {
-    return computed(() => this.#action());
+    return this.#action.asReadonly();
   }
 
   @validateKey()
@@ -67,9 +67,8 @@ export class NgxSignalStorageService<T extends StorageMap<T>>
   @validateKey()
   @prefixKey()
   watch(key: Key<T>, validator?: (value: any) => value is Value<T>) {
-    console.log(key, 'watch');
     return computed(() => {
-      this.#action(); // trigger computed to watch for changes by reacting to the #action signal
+      this.change();
       return this.#storageHelper.getStorageValue(key, validator);
     });
   }
@@ -77,7 +76,6 @@ export class NgxSignalStorageService<T extends StorageMap<T>>
   @validateKey()
   @prefixKey()
   set(key: Key<T>, payload: Value<T>) {
-    console.log(key);
     return this.#action.set({ type: 'set', key, payload });
   }
 
