@@ -4,7 +4,6 @@ import {
   NgxSignalStorageService,
   provideNgxSignalStorage,
 } from './ngx-signal-storage.service';
-import { STORAGE } from '../_internal/storage.token';
 
 describe('NgxSignalStorageService', () => {
   let service: NgxSignalStorageService<{}>;
