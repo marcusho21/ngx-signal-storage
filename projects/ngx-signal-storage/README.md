@@ -114,4 +114,12 @@ The `change` signal is `readonly`; it updates whenever `any change` goes through
   type ClearStorageAction = { type: 'clear' };
 ```
 
+#### Validation
+
+```typescript
+  todos = this.storage.get('todos', (value) => Array.isArray(value));
+```
+
+When working with `NgxSignalStorageService`, you have the option to include a `validator` as a `callback` function when using the `get()` and `watch()` methods. This validator function should return `true` if the value is valid, and `false` if it's not. If the `validator` returns false, the `get()` and `watch()` methods will raise an `Error`. This helps ensure that the value retrieved is of the correct type.
+
 (Note: This library is written using Angular 16, but theoretically, it should work with higher versions of Angular without any issues. Please file an issue on the repo if you encounter any problems while using it.)
