@@ -1,6 +1,6 @@
 {
   "name": "ngx-signal-storage",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Angular library for using local storage reactively with signals API",
   "license": "MIT",
   "scripts": {
