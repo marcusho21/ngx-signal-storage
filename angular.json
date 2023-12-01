@@ -95,10 +95,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "sandbox:build:production"
+              "buildTarget": "sandbox:build:production"
             },
             "development": {
-              "browserTarget": "sandbox:build:development"
+              "buildTarget": "sandbox:build:development"
             }
           },
           "defaultConfiguration": "development"
