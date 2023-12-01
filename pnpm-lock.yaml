@@ -47,8 +47,8 @@ devDependencies:
     specifier: ^29.7.0
     version: 29.7.0(@types/node@20.10.2)(ts-node@10.9.1)
   jest-preset-angular:
-    specifier: ^13.1.2
-    version: 13.1.2(@angular-devkit/build-angular@16.2.8)(@angular/compiler-cli@16.2.11)(@angular/core@16.2.11)(@angular/platform-browser-dynamic@16.2.11)(@babel/core@7.23.2)(jest@29.7.0)(typescript@5.2.2)
+    specifier: ^13.1.4
+    version: 13.1.4(@angular-devkit/build-angular@16.2.8)(@angular/compiler-cli@16.2.11)(@angular/core@16.2.11)(@angular/platform-browser-dynamic@16.2.11)(@babel/core@7.23.2)(jest@29.7.0)(typescript@5.2.2)
   ng-packagr:
     specifier: ^16.2.0
     version: 16.2.3(@angular/compiler-cli@16.2.11)(tslib@2.6.2)(typescript@5.2.2)
@@ -5768,14 +5768,14 @@ packages:
       jest-resolve: 29.7.0
     dev: true
 
-  /jest-preset-angular@13.1.2(@angular-devkit/build-angular@16.2.8)(@angular/compiler-cli@16.2.11)(@angular/core@16.2.11)(@angular/platform-browser-dynamic@16.2.11)(@babel/core@7.23.2)(jest@29.7.0)(typescript@5.2.2):
-    resolution: {integrity: sha512-kuzuIch/YYTMaMnuGDaiZEu++Bjc5WskOAmMwqWO0Grpcd0SulqTOV70Gz6Q/ZOQuMye+LS4KPyIVfqnJr2e3g==}
+  /jest-preset-angular@13.1.4(@angular-devkit/build-angular@16.2.8)(@angular/compiler-cli@16.2.11)(@angular/core@16.2.11)(@angular/platform-browser-dynamic@16.2.11)(@babel/core@7.23.2)(jest@29.7.0)(typescript@5.2.2):
+    resolution: {integrity: sha512-XKeWa8Qt7p37SzlJ85qEXgig06SgkfrzV057X2GSMqfz/HLJmTUjMFkHJKe65ZaQumNQWCcXpxXREr6EfZ9bow==}
     engines: {node: ^14.15.0 || >=16.10.0}
     peerDependencies:
-      '@angular-devkit/build-angular': '>=13.0.0 <17.0.0'
-      '@angular/compiler-cli': '>=13.0.0 <17.0.0'
-      '@angular/core': '>=13.0.0 <17.0.0'
-      '@angular/platform-browser-dynamic': '>=13.0.0 <17.0.0'
+      '@angular-devkit/build-angular': '>=13.0.0 <18.0.0'
+      '@angular/compiler-cli': '>=13.0.0 <18.0.0'
+      '@angular/core': '>=13.0.0 <18.0.0'
+      '@angular/platform-browser-dynamic': '>=13.0.0 <18.0.0'
       jest: ^29.0.0
       typescript: '>=4.4'
     dependencies:
